@@ -1,0 +1,36 @@
+# dependencies and build output
+node_modules/
+dist/
+build/
+
+# python
+__pycache__/
+*.pyc
+
+# ROS
+*.bag
+*.db3
+*.mcap
+log/
+install/
+
+# secrets / local config
+.env
+.env.*
+*.pem
+
+# OS / editor
+.DS_Store
+.vscode/
+.idea/
+*.log
+
+# Node.js and frontend build output
+node_modules/
+**/node_modules/
+dist/
+**/dist/
+
+# Local environment files
+.env.local
+.env.*.local

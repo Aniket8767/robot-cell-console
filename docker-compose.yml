@@ -1,0 +1,35 @@
+# The only command a reviewer needs:  docker compose up --build
+# Then open http://localhost:8080
+name: robot-cell-console
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+      args:
+        ROS_DISTRO: ${ROS_DISTRO:-lyrical}
+    image: robot-cell-backend
+    init: true
+    stop_grace_period: 8s
+    # Camera access without breaking compose when no webcam exists:
+    # a `devices: ["/dev/video0:/dev/video0"]` entry makes `docker compose up` FAIL if the
+    # device is missing. A privileged container instead sees whatever /dev/video* the host
+    # has (hot-plugged ones too) and starts fine when there is none; the camera node then
+    # falls back to the synthetic image. See README for the stricter alternative.
+    privileged: true
+    environment:
+      NO_CAMERA: ${NO_CAMERA:-0}
+
+  web:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+    image: robot-cell-web
+    init: true
+    stop_signal: SIGTERM      # nginx's default SIGQUIT would wait for open websocket/MJPEG connections
+    stop_grace_period: 5s
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend

@@ -1,0 +1,36 @@
+# Single source of truth for every tunable value in the cell.
+# The backend reads this file at start-up and serves the parts the browser needs
+# at GET /api/config.json. Edit it, then run `docker compose up --build` again.
+
+network:
+  rosbridge_port: 9090      # rosbridge websocket (inside the backend container)
+  http_port: 8081           # camera stream + /config.json (inside the backend container)
+  # NOTE: frontend/nginx.conf proxies /ws -> backend:9090 and /api/ -> backend:8081.
+  # If you change these two ports, change nginx.conf as well.
+
+robot:
+  urdf_path: /app/urdf/ur5e.urdf
+  joint_state_rate_hz: 30         # /joint_states publish rate (must be >= 20)
+  max_joint_velocity_rad_s: 1.0   # smooth-motion bonus: joints move at most this fast
+  home_pose:                      # radians, keyed by URDF joint name
+    shoulder_pan_joint: 0.0
+    shoulder_lift_joint: -1.5708
+    elbow_joint: 1.5708
+    wrist_1_joint: -1.5708
+    wrist_2_joint: -1.5708
+    wrist_3_joint: 0.0
+
+camera:
+  device: /dev/video0
+  force_synthetic: false    # true (or env NO_CAMERA=1) always uses the synthetic camera
+  width: 1280
+  height: 720
+  fps: 10
+  jpeg_quality: 80
+
+calibration:
+  mm_per_pixel: 0.4
+
+conveyor:
+  belt_speed_m_per_s: 0.25
+  pipeline_latency_ms: 200

@@ -1,0 +1,132 @@
+<?xml version="1.0"?>
+<!--
+  UR5e kinematics, hand written for this project (not the official ur_description).
+  Every joint origin is derived directly from Universal Robots' published UR5e
+  DH table, so forward kinematics matches a real UR5e:
+      alpha = [pi/2, 0, 0, pi/2, -pi/2, 0]
+      a     = [0, -0.425, -0.3922, 0, 0, 0]
+      d     = [0.1625, 0, 0, 0.1333, 0.0997, 0.0996]
+  Frame layout: every joint rotates about its local +z. base_link_inertia is the
+  DH base frame (rotated 180 deg about z from base_link, as in ur_description).
+  Visuals are simple primitives (no mesh files), so nothing is downloaded.
+  Limits follow the UR5e datasheet: +-360 deg (elbow +-180 deg), 180 deg/s.
+-->
+<robot name="ur5e">
+  <material name="body"><color rgba="0.20 0.38 0.62 1"/></material>
+  <material name="joint"><color rgba="0.82 0.84 0.87 1"/></material>
+  <material name="tool"><color rgba="0.95 0.65 0.05 1"/></material>
+
+  <link name="base_link">
+    <visual>
+      <origin xyz="0 0 0.0125" rpy="0 0 0"/>
+      <geometry><cylinder radius="0.10" length="0.025"/></geometry>
+      <material name="joint"/>
+    </visual>
+  </link>
+  <link name="base_link_inertia"/>
+
+  <link name="shoulder_link">
+    <visual>
+      <origin xyz="0 0 0.08125" rpy="0 0 0"/>
+      <geometry><cylinder radius="0.06" length="0.1625"/></geometry>
+      <material name="body"/>
+    </visual>
+  </link>
+  <link name="upper_arm_link">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><cylinder radius="0.06" length="0.12"/></geometry>
+      <material name="joint"/>
+    </visual>
+    <visual>
+      <origin xyz="-0.2125 0 0" rpy="0 1.57079633 0"/>
+      <geometry><cylinder radius="0.05" length="0.425"/></geometry>
+      <material name="body"/>
+    </visual>
+  </link>
+  <link name="forearm_link">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><cylinder radius="0.05" length="0.10"/></geometry>
+      <material name="joint"/>
+    </visual>
+    <visual>
+      <origin xyz="-0.1961 0 0" rpy="0 1.57079633 0"/>
+      <geometry><cylinder radius="0.04" length="0.3922"/></geometry>
+      <material name="body"/>
+    </visual>
+  </link>
+  <link name="wrist_1_link">
+    <visual>
+      <origin xyz="0 0 0.06665" rpy="0 0 0"/>
+      <geometry><cylinder radius="0.04" length="0.1333"/></geometry>
+      <material name="body"/>
+    </visual>
+  </link>
+  <link name="wrist_2_link">
+    <visual>
+      <origin xyz="0 0 0.04985" rpy="0 0 0"/>
+      <geometry><cylinder radius="0.04" length="0.0997"/></geometry>
+      <material name="joint"/>
+    </visual>
+  </link>
+  <link name="wrist_3_link">
+    <visual>
+      <origin xyz="0 0 0.0498" rpy="0 0 0"/>
+      <geometry><cylinder radius="0.035" length="0.0996"/></geometry>
+      <material name="body"/>
+    </visual>
+  </link>
+  <link name="tool0">
+    <visual>
+      <origin xyz="0 0 0.03" rpy="0 0 0"/>
+      <geometry><cylinder radius="0.012" length="0.06"/></geometry>
+      <material name="tool"/>
+    </visual>
+  </link>
+
+  <joint name="base_link-base_link_inertia" type="fixed">
+    <parent link="base_link"/><child link="base_link_inertia"/>
+    <origin xyz="0 0 0" rpy="0 0 3.14159265"/>
+  </joint>
+  <joint name="shoulder_pan_joint" type="revolute">
+    <parent link="base_link_inertia"/><child link="shoulder_link"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-6.28318531" upper="6.28318531" effort="150" velocity="3.14159265"/>
+  </joint>
+  <joint name="shoulder_lift_joint" type="revolute">
+    <parent link="shoulder_link"/><child link="upper_arm_link"/>
+    <origin xyz="0 0 0.1625" rpy="1.57079633 0 0"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-6.28318531" upper="6.28318531" effort="150" velocity="3.14159265"/>
+  </joint>
+  <joint name="elbow_joint" type="revolute">
+    <parent link="upper_arm_link"/><child link="forearm_link"/>
+    <origin xyz="-0.425 0 0" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-3.14159265" upper="3.14159265" effort="150" velocity="3.14159265"/>
+  </joint>
+  <joint name="wrist_1_joint" type="revolute">
+    <parent link="forearm_link"/><child link="wrist_1_link"/>
+    <origin xyz="-0.3922 0 0" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-6.28318531" upper="6.28318531" effort="28" velocity="3.14159265"/>
+  </joint>
+  <joint name="wrist_2_joint" type="revolute">
+    <parent link="wrist_1_link"/><child link="wrist_2_link"/>
+    <origin xyz="0 0 0.1333" rpy="1.57079633 0 0"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-6.28318531" upper="6.28318531" effort="28" velocity="3.14159265"/>
+  </joint>
+  <joint name="wrist_3_joint" type="revolute">
+    <parent link="wrist_2_link"/><child link="wrist_3_link"/>
+    <origin xyz="0 0 0.0997" rpy="-1.57079633 0 0"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-6.28318531" upper="6.28318531" effort="28" velocity="3.14159265"/>
+  </joint>
+  <joint name="wrist_3-tool0" type="fixed">
+    <parent link="wrist_3_link"/><child link="tool0"/>
+    <origin xyz="0 0 0.0996" rpy="0 0 0"/>
+  </joint>
+</robot>
