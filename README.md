@@ -113,3 +113,17 @@ docker image ls robot-cell-backend robot-cell-web
 - Robot kinematic parameters are Universal Robots' published UR5e DH values. The URDF and its primitive visuals are original to this project; it is not derived from the `ur_description` meshes. UR5e is a trademark of Universal Robots.
 - Backend images are based on the official `ros` Docker image (ROS 2, Apache-2.0 / BSD); rosbridge_suite (BSD-3-Clause).
 - Front end: React (MIT), Vue (MIT), three.js (MIT), urdf-loader (Apache-2.0), Vite (MIT).
+
+
+## Verification Checklist
+
+Use the following checks when running the application locally:
+
+- [ ] Start the application with `docker compose up --build`.
+- [ ] Open `http://localhost:8080`.
+- [ ] Check the robot joint sliders and HOME control.
+- [ ] Check camera interaction and pick-target calculations.
+- [ ] Verify that E-STOP blocks commands and RESET restores operation.
+- [ ] Confirm that the application works without a physical camera.
+
+Record the actual results of these checks before submitting the project.
