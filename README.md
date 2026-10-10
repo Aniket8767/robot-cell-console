@@ -7,7 +7,7 @@ Part C (ROS 2) is the backend.
 ## Run it
 
 ```bash
-git clone <this-repo>
+git clone https://github.com/Aniket8767/robot-cell-console.git
 cd robot-cell-console
 docker compose up --build
 ```
@@ -68,10 +68,7 @@ Docker on Linux; Docker Desktop on macOS/Windows cannot pass USB cameras through
 
 ## What works / what doesn't / what I'd do next
 
-> **TODO before submitting:** this section describes what the code is designed to do. In my sandbox I verified the
-> backend logic (config/URDF parsing, smooth motion, E-STOP rejection, synthetic camera, MJPEG server), the pick maths
-> unit tests and the URDF kinematics. Run the checks in the table above on your own machine, then edit the lists
-> below so they match exactly what you observed.
+The application has been launched successfully on macOS using Docker Compose. The robot console and synthetic camera panel are displayed in the browser. Additional functional checks are still required to verify all features before submission. The verification checklist below should be updated based on the actual test results.
 
 **Works (designed, to be confirmed by your run):**
 - Single-command build and run, one URL, no runtime downloads, starts without a camera.
