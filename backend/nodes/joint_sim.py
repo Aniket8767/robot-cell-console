@@ -56,18 +56,18 @@ class JointSim(Node):
         if msg.data and not self.estop:
             self.estop = True
             self.target = dict(self.position)  # stop where we are
-            self.get_logger().warn("E-STOP LATCHED: robot stopped, joint commands will be rejected")
+            self.get_logger().warning("E-STOP LATCHED: robot stopped, joint commands will be rejected")
         elif not msg.data and self.estop:
             self.estop = False
             self.get_logger().info("E-STOP RESET: joint commands accepted again")
 
     def on_command(self, msg):
         if self.estop:
-            self.get_logger().warn("E-STOP active: REJECTED joint command")
+            self.get_logger().warning("E-STOP active: REJECTED joint command")
             return
         for name, value in zip(msg.name, msg.position):
             if name not in self.limits:
-                self.get_logger().warn(f"Ignoring unknown joint '{name}'")
+                self.get_logger().warning(f"Ignoring unknown joint '{name}'")
                 continue
             lo, hi = self.limits[name]
             self.target[name] = clamp(float(value), lo, hi)

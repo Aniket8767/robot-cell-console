@@ -102,7 +102,7 @@ Measure on your machine and fill in:
 docker image ls robot-cell-backend robot-cell-web
 ```
 
-- Image sizes: **TODO** (backend: ___ GB, web: ___ MB)
+- Image sizes: Backend **673 MB** (2.88 GB disk usage), Web **22.1 MB** (77.2 MB disk usage).
 - Cold build time: **TODO** (about ___ min)
 
 ## Licence and attribution
