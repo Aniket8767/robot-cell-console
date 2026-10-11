@@ -16,7 +16,6 @@ Then open **http://localhost:8080**. Nothing else is needed (no Node, ROS or Pyt
 Stop with `Ctrl+C`; clean up with `docker compose down`.
 
 ![Screenshot of the console](docs/screenshot.png)
-<!-- TODO before submitting: take a screenshot of the running console and save it as docs/screenshot.png -->
 
 ## What it is built from
 
